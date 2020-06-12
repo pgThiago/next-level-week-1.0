@@ -15,6 +15,8 @@ import './styles.css';
 
 import logo from '../../assets/logo.svg';
 
+import Dropzone from '../../components/Dropzone';
+
 // Sempre que a gente cria um estado pra um Array ou Objeto
 // a gente precisa manualmente informar o tipo da variável que vai ser armazenada ali dentro
 // FERNANDES, Diego. Next Level Week. Ecoleta. 2020, ano do corona.
@@ -30,7 +32,7 @@ interface IBGEUFresponse{
 }
 
 interface IBGECityresponse{
-    name: string;
+    nome: string;
  }
 
 const CreatePoint = () => {
@@ -46,6 +48,8 @@ const CreatePoint = () => {
     const [selectedCity, setSelectedCity] = useState('0');
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+    const [selectedFile, setSelectedFile] = useState<File>();
 
 
     const [formData, setFormData] = useState({
@@ -89,12 +93,12 @@ const CreatePoint = () => {
         axios.get<IBGECityresponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
         .then(response => { 
             
-            const cityNames = response.data.map(city => city.name);
-            setCities(cityNames);
+            const cityNames = response.data.map(city => city.nome);
+            setCities(cityNames);           
 
          });
 
-    });
+    }, [selectedUf]);
 
     function handleSelectUf(event: ChangeEvent<HTMLSelectElement>){
         const uf = event.target.value;
@@ -143,16 +147,22 @@ const CreatePoint = () => {
         const [latitude, longitude] = selectedPosition;
         const items = selectedItems;
 
-        const data = {
-            name,
-            email,
-            whatsapp,
-            latitude,
-            longitude,
-            city,
-            uf,
-            items
-        };
+
+        
+        const data = new FormData();
+             
+            data.append('name', name);
+            data.append('email', email);
+            data.append('whatsapp', whatsapp);
+            data.append('latitude', String(latitude));
+            data.append('longitude', String(longitude));
+            data.append('city', city);
+            data.append('uf', uf);
+            data.append('items', items.join(','));
+        
+            if(selectedFile){
+                data.append('image', selectedFile);
+            }
 
         await api.post('points', data);
 
@@ -173,6 +183,8 @@ const CreatePoint = () => {
 
             <form onSubmit={handleSubmit}>
                 <h1>Cadastro do ponto de coleta</h1>
+                
+                <Dropzone onFileUploaded={setSelectedFile} />
 
                 <fieldset>
                     <legend><h2>Dados</h2></legend>
