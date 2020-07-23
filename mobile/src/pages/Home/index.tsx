@@ -3,6 +3,10 @@ import  { Feather as Icon } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
+import Constants from 'expo-constants';
+
+import {  } from 'react-native';
+
 import { View, 
         ImageBackground, 
         Text, 
@@ -20,6 +24,7 @@ const Home = () => {
   const [city, setCity] = useState('');
 
   const navigation = useNavigation();
+  
   function handleNavigateToPoints(){
     navigation.navigate('Points', {
       uf, city
@@ -28,14 +33,21 @@ const Home = () => {
 
 
     return ( 
+
       
-        <KeyboardAvoidingView style={{ flex:1 }} behavior={Platform.OS === 'android' ? 'padding' : undefined}>
+        <KeyboardAvoidingView 
+        
+        style={{ flex: 1}} 
+>
           
-          <ImageBackground source={require('../../assets/home-background.png')} style={styles.container} imageStyle={{ width: 274, height: 368}}>
+          <ImageBackground 
+          source={require('../../assets/home-background.png')} 
+          style={styles.container} 
+          imageStyle={{ width: 274, height: 368}}>
              
               <View style={styles.main} >
 
-              <Image source={require('../../assets/logo.png')} />                 
+              <Image style={styles.logoImg} source={require('../../assets/logo.png')} />                 
                   
                   <View>
 
@@ -48,10 +60,25 @@ const Home = () => {
 
               <View style={styles.footer}>
                
-                <TextInput style={styles.input} placeholder="UF" value={uf} onChangeText={setUf} maxLength={2} autoCorrect={false} autoCapitalize="characters" />
-                <TextInput style={styles.input} placeholder="Cidade" value={city} onChangeText={setCity} autoCorrect={false}/>
+                <TextInput 
+                style={styles.input} 
+                placeholder="UF" 
+                value={uf} 
+                onChangeText={setUf} 
+                maxLength={2} 
+                autoCorrect={false} 
+                autoCapitalize="characters" />
+                
+                <TextInput 
+                style={styles.input} 
+                placeholder="Cidade" 
+                value={city} 
+                onChangeText={setCity} 
+                autoCorrect={false} />
 
-                <RectButton style={styles.button} onPress={handleNavigateToPoints}> 
+                <RectButton 
+                style={styles.button} 
+                onPress={handleNavigateToPoints}> 
                 
                   <View style={styles.buttonIcon}>
                       
@@ -62,7 +89,7 @@ const Home = () => {
                   </View>
 
                   <Text style={styles.buttonText}>
-                      Entrarr
+                      Entrar
                   </Text>
 
                 </RectButton>
@@ -71,9 +98,10 @@ const Home = () => {
               
           </ImageBackground>  
 
+
       </KeyboardAvoidingView>
         
-        
+      
     );
    
 };
@@ -82,7 +110,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 32,
-    
+  },
+
+  logoImg: {
+   marginTop: Constants.statusBarHeight - 50, // pra sumir a logo e evitar a sobreposição na statusbar
   },
 
   main: {
@@ -115,10 +146,9 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#FFF',
     borderRadius: 10,
-    marginBottom: 8,
+    marginBottom: 20, // pra sumir a logo e evitar a sobreposição na statusbar
     paddingHorizontal: 24,
     fontSize: 16,
-    color: '#000000',
   },
 
   button: {
@@ -128,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     alignItems: 'center',
-    marginTop: 24,
+    marginTop: 8,
   },
 
   buttonIcon: {
@@ -148,4 +178,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   }
 });
-export default Home;
+export default Home; 
+

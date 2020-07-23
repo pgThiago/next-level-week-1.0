@@ -45,13 +45,12 @@ const Details = () => {
   }, []);
 
   function handleWhatsapp(){
-    Linking.openURL(`whatsapp://send?phone=${data.point.whatsapp}&text=Tenho interesse`);
-
+    Linking.openURL(`whatsapp://send?phone=${data.point.whatsapp}&text=Tenho interesse sobre coleta de resíduos`);
   }
   
     function handleComposeMail(){
       MailComposer.composeAsync({
-        subject: 'njwkb',
+        subject: 'Bora cuidar da natureza?',
         recipients: [data.point.email]
       });
 
@@ -76,11 +75,11 @@ const Details = () => {
 
           <Image style={styles.pointImage} source={ { uri: data.point.image_url } }/>
           <Text style={styles.pointName} >{ data.point.name }</Text>
-    <Text style={styles.pointItems} >{data.items.map(item => item.title).join(',')}</Text>
+         <Text style={styles.pointItems} >{data.items.map(item => item.title).join('')}</Text>
           
           <View style={styles.address}>
               <Text style={styles.addressTitle}>{data.point.city}</Text>
-              <Text style={styles.addressContent} >{data.point.uf}</Text>
+              <Text style={styles.addressContent}>{data.point.uf}</Text>
           </View>
 
       </View>
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 32,
-      paddingTop: 20,
+      paddingTop: 40,
     },
   
     pointImage: {
